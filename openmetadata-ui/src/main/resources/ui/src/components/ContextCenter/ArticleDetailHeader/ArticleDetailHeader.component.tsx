@@ -157,22 +157,21 @@ const ArticleDetailHeader: FC<ArticleDetailHeaderProps> = ({
     return list.slice(0, 5);
   }, [knowledgePage]);
 
-  const { owners, firstDomain, extraDomains, entityType } =
-    useMemo(() => {
-      const domains = knowledgePage?.domains ?? [];
-      const owners = knowledgePage?.owners ?? [];
-      const firstDomain = domains[0];
-      const extraDomains = domains.slice(1);
-      const entityType = t('label.article');
+  const { owners, firstDomain, extraDomains, entityType } = useMemo(() => {
+    const domains = knowledgePage?.domains ?? [];
+    const owners = knowledgePage?.owners ?? [];
+    const firstDomain = domains[0];
+    const extraDomains = domains.slice(1);
+    const entityType = t('label.article');
 
-      return {
-        owners,
-        firstDomain,
-        extraDomains,
-        domains,
-        entityType,
-      };
-    }, [knowledgePage, t]);
+    return {
+      owners,
+      firstDomain,
+      extraDomains,
+      domains,
+      entityType,
+    };
+  }, [knowledgePage, t]);
 
   const afterDeleteAction = async (isSoftDelete?: boolean) => {
     updateKnowledgeCenterRecentViewed(
