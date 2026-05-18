@@ -768,9 +768,9 @@ const KnowledgePagesHierarchy = forwardRef<
 
         {deletePage && (
           <DeleteWidgetModal
+            allowSoftDelete
             isRecursiveDelete
             afterDeleteAction={() => handleAfterDeletePage(deletePage)}
-            allowSoftDelete={false}
             entityId={deletePage.id}
             entityName={deletePage.displayName || t('label.untitled')}
             entityType={EntityType.KNOWLEDGE_CENTER}

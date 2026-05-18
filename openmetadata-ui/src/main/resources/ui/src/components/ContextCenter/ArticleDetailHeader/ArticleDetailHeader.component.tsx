@@ -44,7 +44,6 @@ import { ReactComponent as SidebarCollapsible } from '../../../assets/svg/ic-sid
 import { ReactComponent as StarFilledIcon } from '../../../assets/svg/ic-star-filled.svg';
 import { ReactComponent as StarIcon } from '../../../assets/svg/ic-star.svg';
 import { ReactComponent as VersionIcon } from '../../../assets/svg/ic-version.svg';
-import { DeleteType } from '../../../components/common/DeleteWidget/DeleteWidget.interface';
 import ManageButton from '../../../components/common/EntityPageInfos/ManageButton/ManageButton';
 import Loader from '../../../components/common/Loader/Loader';
 import UserPopOverCard from '../../../components/common/PopOverCard/UserPopOverCard';
@@ -64,7 +63,6 @@ import {
   RecentlyViewedQuickLinks,
 } from '../../../interface/knowledge-center.interface';
 import contextCenterClassBase from '../../../utils/ContextCenterClassBase';
-import deleteWidgetClassBase from '../../../utils/DeleteWidget/DeleteWidgetClassBase';
 import EntityLink from '../../../utils/EntityLink';
 import { getEntityName } from '../../../utils/EntityUtils';
 import { updateKnowledgeCenterRecentViewed } from '../../../utils/KnowledgePageUtils';
@@ -159,39 +157,22 @@ const ArticleDetailHeader: FC<ArticleDetailHeaderProps> = ({
     return list.slice(0, 5);
   }, [knowledgePage]);
 
-  const { deleteOptions, owners, firstDomain, extraDomains, entityType } =
+  const { owners, firstDomain, extraDomains, entityType } =
     useMemo(() => {
       const domains = knowledgePage?.domains ?? [];
       const owners = knowledgePage?.owners ?? [];
       const firstDomain = domains[0];
       const extraDomains = domains.slice(1);
-
-      const entityName = getEntityName(knowledgePage);
       const entityType = t('label.article');
 
-      const deleteOptions = [
-        {
-          description: deleteWidgetClassBase.getDeleteMessage(
-            entityName,
-            entityType
-          ),
-          isAllowed: true,
-          title: `${t(
-            'label.permanently-delete'
-          )} ${entityType} "${entityName}"`,
-          type: DeleteType.HARD_DELETE,
-        },
-      ];
-
       return {
-        deleteOptions,
         owners,
         firstDomain,
         extraDomains,
         domains,
         entityType,
       };
-    }, [knowledgePage]);
+    }, [knowledgePage, t]);
 
   const afterDeleteAction = async (isSoftDelete?: boolean) => {
     updateKnowledgeCenterRecentViewed(
@@ -570,15 +551,14 @@ const ArticleDetailHeader: FC<ArticleDetailHeaderProps> = ({
 
             {permissions?.Delete && (
               <ManageButton
+                allowSoftDelete
                 isRecursiveDelete
                 afterDeleteAction={afterDeleteAction}
-                allowSoftDelete={false}
                 canDelete={permissions?.Delete}
                 deleteButtonDescription={t(
                   'message.delete-entity-type-action-description',
                   { entityType }
                 )}
-                deleteOptions={deleteOptions}
                 deleted={knowledgePage?.deleted}
                 entityFQN={knowledgePage?.fullyQualifiedName}
                 entityId={knowledgePage?.id}
