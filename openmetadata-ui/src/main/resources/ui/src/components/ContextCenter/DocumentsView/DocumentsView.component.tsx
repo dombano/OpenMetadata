@@ -20,7 +20,7 @@ import {
   TooltipTrigger,
   Typography,
 } from '@openmetadata/ui-core-components';
-import { Download01, Share06, Share07, Trash01 } from '@untitledui/icons';
+import { Download01, Pin02, Share06, Trash01 } from '@untitledui/icons';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FileTypeBadge } from 'utils/ContextCenterUtils';
@@ -67,13 +67,13 @@ const FileActions: FC<FileActionsProps> = ({
           }}>
           <Dropdown.Item
             data-testid="share-btn"
-            icon={Share07}
+            icon={Share06}
             id="share"
             label={t('label.share-file')}
           />
           <Dropdown.Item
             data-testid="move-btn"
-            icon={Share06}
+            icon={Pin02}
             id="move"
             label={t('label.move-to-folder')}
           />
