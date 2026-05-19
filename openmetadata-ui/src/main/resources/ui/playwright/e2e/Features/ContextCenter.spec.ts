@@ -942,7 +942,7 @@ test.describe('Context Center', () => {
       await page.getByTestId('confirmation-text-input').fill('DELETE');
 
       const apiDeleteRes = page.waitForResponse(
-        /\/api\/v1\/contextCenter\/pages\/.+\?hardDelete=true/
+        '/api/v1/contextCenter/pages/*?hardDelete=false&recursive=true'
       );
       await page.getByTestId('confirm-button').click();
       await apiDeleteRes;
@@ -1029,7 +1029,7 @@ test.describe('Context Center', () => {
       await expect(modal.getByText('test-upload.txt').first()).toBeVisible();
 
       // Attach the file
-      const uploadRes = page.waitForResponse('/api/v1/attachments/upload');
+      const uploadRes = page.waitForResponse('/api/v1/contextCenter/drive/files/upload');
       await modal.getByRole('button', { name: /attach/i }).click();
 
       // Progress bar / uploading state
@@ -1080,9 +1080,9 @@ test.describe('Context Center', () => {
 
       await expect(firstRow).toBeVisible();
 
-      // Listen for the download API call — download triggers /api/v1/assets/:id/download
+      // Listen for the download API call
       const downloadRes = page.waitForResponse(
-        /\/api\/v1\/attachments\/[^/]+\/download(?:\?.*)?$/
+        /\/api\/v1\/contextCenter\/drive\/files\/[^/]+\/download(?:\?.*)?$/
       );
       await firstRow.locator('button').nth(0).click();
       const res = await downloadRes;
@@ -1114,7 +1114,7 @@ test.describe('Context Center', () => {
       await expect(deleteModal).toBeVisible();
 
       const deleteRes = page.waitForResponse(
-        /\/api\/v1\/attachments\/[^?]+\?hardDelete=true/
+        /\/api\/v1\/contextCenter\/drive\/files\/[^?]+\?hardDelete=false/
       );
       await page.getByTestId('confirm-button').click();
       const res = await deleteRes;
