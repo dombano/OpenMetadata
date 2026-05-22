@@ -772,7 +772,7 @@ const KnowledgePagesHierarchy = forwardRef<
             isRecursiveDelete
             afterDeleteAction={() => handleAfterDeletePage(deletePage)}
             entityId={deletePage.id}
-            entityName={deletePage.displayName || t('label.untitled')}
+            entityName={getEntityName(deletePage) || t('label.untitled')}
             entityType={EntityType.KNOWLEDGE_CENTER}
             successMessage={t('server.entity-deleted-successfully', {
               entity: t('label.article'),

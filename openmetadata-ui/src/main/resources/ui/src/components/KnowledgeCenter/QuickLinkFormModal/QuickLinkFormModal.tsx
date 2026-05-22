@@ -39,7 +39,7 @@ import { generateFormFields } from '../../../utils/formUtils';
 import i18n from '../../../utils/i18next/LocalUtil';
 import { getFilterTags } from '../../../utils/TableTags/TableTags.utils';
 import { getTagsWithoutTier } from '../../../utils/TableUtils';
-import { TagClassBase } from '../../../utils/TagClassBase';
+import tagClassBase from '../../../utils/TagClassBase';
 import { showErrorToast } from '../../../utils/ToastUtils';
 
 export interface QuickLinkFormModalFormData
@@ -71,12 +71,16 @@ export const QuickLinkFormModal: FC<QuickLinkFormModalProps> = ({
   const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
-    TagClassBase.filterClassification = [];
+    if (isOpen) {
+      tagClassBase.setFilterClassification([]);
+    } else {
+      tagClassBase.setFilterClassification([KNOWLEDGE_CENTER_CLASSIFICATION]);
+    }
 
     return () => {
-      TagClassBase.filterClassification = [KNOWLEDGE_CENTER_CLASSIFICATION];
+      tagClassBase.setFilterClassification([KNOWLEDGE_CENTER_CLASSIFICATION]);
     };
-  }, []);
+  }, [isOpen]);
 
   const { classification, glossaries, initialValues } = useMemo(() => {
     if (isUndefined(quickLink)) {
